@@ -2,11 +2,14 @@ require 'active_support'
 require 'active_support/core_ext'
 require 'erb'
 require 'active_support/inflector'
+require_relative 'params'
+require_relative 'router'
+require_relative 'session'
 
 class ControllerBase
   attr_reader :req, :res, :params
 
-  def initialize(req, res)
+  def initialize(req, res, route_params = {})
     @req, @res = req, res
     @params = Params.new(req, route_params)
   end
