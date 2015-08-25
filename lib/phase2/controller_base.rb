@@ -6,20 +6,23 @@ module Phase2
       @req, @res = req, res
     end
 
-    # Raise an error if the developer tries to double render.
     def render_content(content, content_type)
-      response.content = content
-      response.content_type = content_type
+      raise "Response already built!" if already_built_response?
+
+      res.body = content
+      res.content_type = content_type
+
       record_response_built
     end
 
     def redirect_to(url)
-      response.header.location = url
-      response.status = 302
+      raise "Response already built!" if already_built_response?
+
+      res["location"] = url
+      res.status = 302
+      
       record_response_built
     end
-
-    private
 
     def already_built_response?
       @already_built_response
