@@ -3,24 +3,20 @@ require 'byebug'
 
 module Phase5
   class Params
-    attr_reader :params
+    def params
+      @params ||= {}
+    end
 
-    # use your initialize to merge params from
-    # 1. query string
-    # 2. post body
-    # 3. route params
-    #
-    # You haven't done routing yet; but assume route params will be
-    # passed in as a hash to `Params.new` as below:
     def initialize(req, route_params = {})
-      @params = route_params.merge(parse_www_encoded_form(req.query_string))
+      params.merge!(route_params)
+            .merge!(parse_www_encoded_form(req.query_string))
+            .merge!(parse_www_encoded_form(req.body))
     end
 
     def [](key)
       params[key.to_sym] || params[key.to_s]
     end
 
-    # this will be useful if we want to `puts params` in the server log
     def to_s
       params.to_s
     end
@@ -33,15 +29,23 @@ module Phase5
       result = {}
 
       URI::decode_www_form(www_encoded_form.to_s).each do |key, value|
-        result[key] = value
+        nested_keys = parse_key(key)
+
+        current_level = result
+
+        nested_keys[0...-1].each do |nested_key|
+          current_level[nested_key] ||= {}
+          current_level = current_level[nested_key]
+        end
+
+        current_level[nested_keys.last] = value
       end
 
       result
     end
 
-    # this should return an array
-    # user[address][street] should return ['user', 'address', 'street']
     def parse_key(key)
+      key.split(/\]\[|\]|\[/)
     end
   end
 end

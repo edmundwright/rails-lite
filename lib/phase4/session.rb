@@ -7,9 +7,11 @@ module Phase4
     attr_reader :session
 
     def initialize(req)
-      cookies = req.cookies.select { |cookie| cookie.name == "_rails_lite_app"}
+      existing_cookie = req.cookies.find do |cookie|
+        cookie.name == "_rails_lite_app"
+      end
 
-      @session = cookies.empty? ? {} : JSON.parse(cookies.first.value)
+      @session = existing_cookie.nil? ? {} : JSON.parse(existing_cookie.value)
     end
 
     def [](key)
@@ -17,7 +19,7 @@ module Phase4
     end
 
     def []=(key, val)
-      @session[key] = val
+      session[key] = val
     end
 
     def store_session(res)
