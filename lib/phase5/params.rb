@@ -1,7 +1,10 @@
 require 'uri'
+require 'byebug'
 
 module Phase5
   class Params
+    attr_reader :params
+
     # use your initialize to merge params from
     # 1. query string
     # 2. post body
@@ -10,14 +13,16 @@ module Phase5
     # You haven't done routing yet; but assume route params will be
     # passed in as a hash to `Params.new` as below:
     def initialize(req, route_params = {})
+      @params = parse_www_encoded_form(req.query_string).merge(route_params)
     end
 
     def [](key)
+      params[key.to_sym] || params[key.to_s]
     end
 
     # this will be useful if we want to `puts params` in the server log
     def to_s
-      @params.to_s
+      params.to_s
     end
 
     class AttributeNotFoundError < ArgumentError; end;
@@ -29,6 +34,17 @@ module Phase5
     # should return
     # { "user" => { "address" => { "street" => "main", "zip" => "89436" } } }
     def parse_www_encoded_form(www_encoded_form)
+      return {} if www_encoded_form.nil?
+
+      result = {}
+
+      key_value_pairs = URI::decode_www_form(www_encoded_form)
+
+      key_value_pairs.each do |key, value|
+        result[key] = value
+      end
+
+      result
     end
 
     # this should return an array
