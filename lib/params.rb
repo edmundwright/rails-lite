@@ -1,5 +1,4 @@
 require 'uri'
-require 'byebug'
 
 class Params
   def params

@@ -1,6 +1,5 @@
 require 'json'
 require 'webrick'
-require 'byebug'
 
 class Session
   attr_reader :session
