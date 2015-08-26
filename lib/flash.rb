@@ -7,12 +7,12 @@ class Flash
   end
 
   def [](key)
-    now[key.to_s]
+    now[key.to_sym] || now[key.to_s]
   end
 
   def []=(key, value)
-    next_time[key.to_s] = value
-    now[key.to_s] = value
+    next_time[key.to_sym] = value
+    now[key.to_sym] = value
   end
 
   def store_flash(res)

@@ -3,10 +3,13 @@ require_relative 'searchable'
 require_relative 'relation'
 require_relative 'associatable'
 require 'active_support/inflector'
+require 'byebug'
 
 class SQLObject
   extend Searchable
   extend Associatable
+
+  attr_reader :errors
 
   def self.columns
     column_names = DBConnection::execute2(<<-SQL)
@@ -64,6 +67,7 @@ class SQLObject
   end
 
   def self.find(id)
+    id = id.to_i
     sql_result = DBConnection::execute(<<-SQL, id)
       SELECT
         *
@@ -77,7 +81,9 @@ class SQLObject
   end
 
   def initialize(params = {})
+    @errors = []
     params.each do |column_name, value|
+      column_name = column_name.to_sym
       if self.class.columns.include?(column_name)
         send("#{column_name}=", value)
       else

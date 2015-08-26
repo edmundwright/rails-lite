@@ -1,8 +1,10 @@
+require 'byebug'
+
 require_relative '../lib/active-record-lite/sql_object'
 require_relative '../lib/controller_base'
-Dir["../app/models/*.rb"].each {|file| require file }
+Dir["app/models/*.rb"].each {|file| require_relative "../#{file}" }
 require_relative '../app/controllers/application_controller.rb'
-Dir["../app/controllers/*.rb"].each {|file| require file }
+Dir["app/controllers/*.rb"].each {|file| require_relative "../#{file}" }
 
 $router = Router.new
 

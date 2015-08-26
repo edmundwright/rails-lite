@@ -2,7 +2,7 @@
 
 require 'sqlite3'
 
-DB_FILE = '../db/tables.db'
+DB_FILE = 'db/tables.db'
 
 class DBConnection
   def self.open(db_file_name)
@@ -14,6 +14,7 @@ class DBConnection
   end
 
   def self.reset
+    p DB_FILE
     DBConnection.open(DB_FILE)
   end
 

@@ -1,0 +1,22 @@
+<h1>DOGS DOGS DOGS</h1>
+
+<%= flash[:notice] %><br>
+
+<% if logged_in? %>
+  Current user:<%= current_user.username %><br>
+  <form action="/sessions/destroy" method="post">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+    <button>Sign out</button>
+  </form>
+<% else %>
+  <a href="/users/new">Sign up</a>
+  <a href="/sessions/new">Sign In</a><br>
+<% end %>
+
+<a href="/dogs/new">Create new dog</a>
+
+<ul>
+<% @dogs.each do |dog | %>
+  <li><a href="/dogs/<%= dog.id %>"><%= dog.name %>, of breed <%= dog.breed %></a></li>
+<% end %>
+</ul>

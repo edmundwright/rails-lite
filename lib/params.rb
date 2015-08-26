@@ -32,11 +32,11 @@ class Params
       current_level = result
 
       nested_keys[0...-1].each do |nested_key|
-        current_level[nested_key] ||= {}
-        current_level = current_level[nested_key]
+        current_level[nested_key.to_sym] ||= {}
+        current_level = current_level[nested_key.to_sym]
       end
 
-      current_level[nested_keys.last] = value
+      current_level[nested_keys.last.to_sym] = value
     end
 
     result

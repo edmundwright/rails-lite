@@ -1,0 +1,19 @@
+<h1>Make a Dog</h1>
+
+<ul>
+<% flash[:errors].try(:each) do |error| %>
+  <li><%= error %></li>
+<% end %>
+</ul>
+
+<form action="/dogs" method="post">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+
+  <label for="dog_name">Name</label>
+  <input id="dog_name" type="text" name="dog[name]" value="<%= @dog.name %>">
+
+  <label for="dog_breed">Breed</label>
+  <input id="dog_breed" type="text" name="dog[breed]" value="<%= @dog.breed %>">
+
+  <button>MAKE DOG</button>
+</form>

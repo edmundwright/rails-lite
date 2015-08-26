@@ -88,7 +88,7 @@ class ControllerBase
   end
 
   def render(template_name)
-    template_path = "views/#{self.class.to_s.underscore}/#{template_name}.html.erb"
+    template_path = "app/views/#{self.class.to_s.underscore.gsub("_controller","")}/#{template_name}.html.erb"
     template = ERB.new(File.read(template_path))
     evaluated_template = template.result(binding)
 

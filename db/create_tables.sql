@@ -1,7 +1,11 @@
-CREATE TABLE cats (
+CREATE TABLE dogs (
   id INTEGER PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
-  owner_id INTEGER,
+  breed varchar(255) NOT NULL
+);
 
-  FOREIGN KEY(owner_id) REFERENCES human(id)
+CREATE TABLE users (
+  id INTEGER PRIMARY KEY,
+  username VARCHAR(255) NOT NULL,
+  session_token INTEGER
 );

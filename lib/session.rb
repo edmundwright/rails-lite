@@ -13,11 +13,11 @@ class Session
   end
 
   def [](key)
-    session[key]
+    session[key.to_sym] || session[key.to_s]
   end
 
   def []=(key, val)
-    session[key] = val
+    session[key.to_sym] = val
   end
 
   def store_session(res)
