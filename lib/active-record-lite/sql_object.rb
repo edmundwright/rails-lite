@@ -86,6 +86,8 @@ class SQLObject
       column_name = column_name.to_sym
       if self.class.columns.include?(column_name)
         send("#{column_name}=", value)
+      elsif self.class.method_defined?("#{column_name}=".to_sym)
+        send("#{column_name}=", value)
       else
         raise "unknown attribute '#{column_name}'"
       end

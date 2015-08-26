@@ -7,5 +7,6 @@ CREATE TABLE dogs (
 CREATE TABLE users (
   id INTEGER PRIMARY KEY,
   username VARCHAR(255) NOT NULL,
-  session_token INTEGER
+  session_token VARCHAR(255),
+  password_digest VARCHAR(255)
 );
