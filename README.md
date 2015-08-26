@@ -1,5 +1,5 @@
 # Rails Lite
-Clone of Rails' basic functionality, including clone of Active Record's basic functionality. Contains test app with user authentication built on top of it.
+Clone of Rails' basic functionality, including clone of Active Record's basic functionality. Repository includes example app with user authentication.
 
 Allows:
 
