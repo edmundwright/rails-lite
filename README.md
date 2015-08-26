@@ -3,14 +3,14 @@ Clone of Rails' basic functionality, including clone of Active Record's basic fu
 
 Allows:
 
-* Validations, e.g.
+* Validations
 
 ```
 validates :username, presence: true
 validates :password, length: { minimum: 6, allow_nil: true }
 ```
 
-* CSRF protection, e.g.
+* CSRF protection
 ```
 class ApplicationController < ControllerBase
   protect_from_forgery
@@ -21,7 +21,7 @@ class ApplicationController < ControllerBase
   ...
 ```
 
-* Mutually stackable and lazy ActiveRecord like methods, e.g.
+* Mutually stackable and lazy ActiveRecord like methods
 
 ```
 cats = Cat.joins(:human, :house).where("fname = ?", "Ned").where(address: "26 Main Street")
