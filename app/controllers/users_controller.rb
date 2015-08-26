@@ -11,7 +11,7 @@ class UsersController < ApplicationController
       log_in_user!(@user)
       redirect_to "dogs"
     else
-      flash[:errors] = @user.errors
+      flash.now[:errors] = @user.errors
       render :new
     end
   end
