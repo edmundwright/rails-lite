@@ -1,0 +1,2 @@
+$router.draw do
+end
