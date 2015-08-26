@@ -2,14 +2,10 @@ require 'bcrypt'
 
 class User < SQLObject
   finalize!
+  validates :username, presence: true
+  validates :password, length: { minimum: 6, allow_nil: true }
 
-  def save
-    @errors << "Name must be present" if username.empty?
-    @errors << "Password too short!" if @password && @password.length < 6
-    return false if username.empty?
-
-    super
-  end
+  attr_reader :password
 
   def reset_session_token!
     self.session_token = SecureRandom.urlsafe_base64(16)

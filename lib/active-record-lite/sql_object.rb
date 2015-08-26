@@ -11,6 +11,10 @@ class SQLObject
 
   attr_reader :errors
 
+  def self.validations
+    @validations
+  end
+
   def self.columns
     column_names = DBConnection::execute2(<<-SQL)
       SELECT
@@ -32,6 +36,13 @@ class SQLObject
       define_method("#{column}=") do |value|
         attributes[column] = value
       end
+    end
+  end
+
+  def self.validates(*columns, restrictions)
+    @validations = Hash.new { |hash, key| hash[key] = {} } unless @validations
+    columns.each do |column|
+      @validations[column].merge!(restrictions)
     end
   end
 
@@ -132,6 +143,28 @@ class SQLObject
   end
 
   def save
+    check_validations
+    return false unless @errors.empty?
+
     id.nil? ? insert : update
+  end
+
+  def check_validations
+    self.class.validations.each do |column, restrictions|
+      restrictions.each do |restriction, value|
+        case restriction
+        when :presence
+          if value==true
+            @errors << "#{column} can't be blank" if send(column).empty?
+          end
+        when :length
+          if value[:minimum] && send(column) && send(column).length < value[:minimum]
+            @errors << "#{column} must be at least #{value[:minimum]} characters"
+          elsif send(column).nil? && !value[:allow_nil]
+            @errors << "#{column} must not be nil"
+          end
+        end
+      end
+    end
   end
 end
