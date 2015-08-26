@@ -53,7 +53,7 @@ describe "the symphony of things" do
       ctrlr.update_session
       # Currently broken when flash is used. Need to store flash in the cookie
       # or change this spec.
-      expect(res.cookies.count).to eq(1)
+      expect(res.cookies.count).to eq(2)
       expect(JSON.parse(res.cookies[0].value)["token"]).to eq("testing")
     end
   end
