@@ -3,6 +3,13 @@ Clone of Rails' basic functionality, including clone of Active Record's basic fu
 
 Allows:
 
+* The Flash
+
+```
+flash[:notice] = "Thanks for signing up!"
+flash.now[:errors] = @user.errors
+```
+
 * Validations
 
 ```
