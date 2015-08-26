@@ -2,6 +2,7 @@ require 'active_support'
 require 'active_support/core_ext'
 require 'webrick'
 require_relative '../lib/controller_base'
+require 'byebug'
 
 # http://www.ruby-doc.org/stdlib-2.0/libdoc/webrick/rdoc/WEBrick.html
 # http://www.ruby-doc.org/stdlib-2.0/libdoc/webrick/rdoc/WEBrick/HTTPRequest.html
@@ -9,7 +10,7 @@ require_relative '../lib/controller_base'
 # http://www.ruby-doc.org/stdlib-2.0/libdoc/webrick/rdoc/WEBrick/Cookie.html
 
 class Cat
-  attr_reader :name, :owner
+  attr_reader :name, :owner, :errors
 
   def self.all
     @cat ||= []
@@ -18,9 +19,12 @@ class Cat
   def initialize(params = {})
     params ||= {}
     @name, @owner = params["name"], params["owner"]
+    @errors = []
   end
 
   def save
+    errors << "Name must be present" unless @name.present?
+    errors << "Owner must be present" unless @owner.present?
     return false unless @name.present? && @owner.present?
 
     Cat.all << self
@@ -36,8 +40,10 @@ class CatsController < ControllerBase
   def create
     @cat = Cat.new(params["cat"])
     if @cat.save
+      flash[:notice] = "Thanks for adding a cat!"
       redirect_to("/cats")
     else
+      flash.now[:errors] = @cat.errors
       render :new
     end
   end

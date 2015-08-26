@@ -1,24 +1,36 @@
 class Flash
-  def initialize(req)
-    cookie = retrieve_cookie(req)
+  attr_reader :now
 
-    if cookie
-      from_cookie = JSON.parse(cookie.value)
-      @not_now = from_cookie[:not_now]
-      @now = from_cookie[:now]
-    else
-      @not_now, @now = {}, {}
-    end
+  def initialize(req)
+    @now = retrieve_and_parse_cookie(req)
+    @next_time = {}
   end
 
-  def now
+  def [](key)
+    now[key.to_s]
+  end
+
+  def []=(key, value)
+    next_time[key.to_s] = value
+    now[key.to_s] = value
+  end
+
+  def store_flash(res)
+    puts "Storing flash cookie!"
+    cookie = WEBrick::Cookie.new("_rails_lite_app_flash", next_time.to_json)
+    cookie.path = "/"
+    res.cookies << cookie
   end
 
   private
 
-  def retrieve_cookie(req)
-    req.cookies.find do |cookie|
+  attr_reader :next_time
+
+  def retrieve_and_parse_cookie(req)
+    cookie = req.cookies.find do |cookie|
       cookie.name == "_rails_lite_app_flash"
     end
+
+    cookie ? JSON.parse(cookie.value) : {}
   end
 end

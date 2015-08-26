@@ -5,6 +5,8 @@ require 'active_support/inflector'
 require_relative 'params'
 require_relative 'router'
 require_relative 'session'
+require_relative 'flash'
+require 'byebug'
 
 class ControllerBase
   attr_reader :req, :res, :params
@@ -18,6 +20,15 @@ class ControllerBase
     @session ||= Session.new(req)
   end
 
+  def flash
+    @flash ||= Flash.new(req)
+  end
+
+  def store_flash_and_session
+    session.store_session(res)
+    flash.store_flash(res)
+  end
+
   def render_content(content, content_type)
     raise "Response already built!" if already_built_response?
 
@@ -25,7 +36,7 @@ class ControllerBase
     res.content_type = content_type
 
     record_response_built
-    session.store_session(res)
+    store_flash_and_session
   end
 
   def redirect_to(url)
@@ -35,7 +46,7 @@ class ControllerBase
     res.status = 302
 
     record_response_built
-    session.store_session(res)
+    store_flash_and_session
   end
 
   def already_built_response?
