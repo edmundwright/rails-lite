@@ -36,7 +36,11 @@ class Cat
   end
 end
 
-class CatsController < ControllerBase
+class ApplicationController < ControllerBase
+  protect_from_forgery
+end
+
+class CatsController < ApplicationController
   def create
     @cat = Cat.new(params["cat"])
     if @cat.save
@@ -57,19 +61,38 @@ class CatsController < ControllerBase
     @cat = Cat.new
     render :new
   end
+
+  def bad_new
+    p self.class.protected_from_forgery?
+    @cat = Cat.new
+    render :bad_new
+  end
+end
+
+router = Router.new
+router.draw do
+  get Regexp.new("^/cats$"), CatsController, :index
+  get Regexp.new("^/cats/new$"), CatsController, :new
+  get Regexp.new("^/cats/bad_new$"), CatsController, :bad_new
+  post Regexp.new("^/cats$"), CatsController, :create
 end
 
 server = WEBrick::HTTPServer.new(Port: 3000)
 server.mount_proc('/') do |req, res|
-  case [req.request_method, req.path]
-  when ['GET', '/cats']
-    CatsController.new(req, res, {}).index
-  when ['POST', '/cats']
-    CatsController.new(req, res, {}).create
-  when ['GET', '/cats/new']
-    CatsController.new(req, res, {}).new
-  end
+  route = router.run(req, res)
 end
+
+# server = WEBrick::HTTPServer.new(Port: 3000)
+# server.mount_proc('/') do |req, res|
+#   case [req.request_method, req.path]
+#   when ['GET', '/cats']
+#     CatsController.new(req, res, {}).index
+#   when ['POST', '/cats']
+#     CatsController.new(req, res, {}).create
+#   when ['GET', '/cats/new']
+#     CatsController.new(req, res, {}).new
+#   end
+# end
 
 trap('INT') { server.shutdown }
 server.start
