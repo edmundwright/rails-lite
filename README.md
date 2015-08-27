@@ -10,7 +10,7 @@ flash[:notice] = "Thanks for signing up!"
 flash.now[:errors] = @user.errors
 ```
 
-* Validations
+* Some validations
 
 ```
 validates :username, presence: true
