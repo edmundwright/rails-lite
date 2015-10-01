@@ -15,11 +15,28 @@ class DBConnection
   end
 
   def self.execute(*args)
+    args[0] = transform_question_marks(args[0])
     instance.exec_params(*args)
   end
 
   def self.last_insert_row_id
     instance.last_insert_row_id
+  end
+
+  def self.transform_question_marks(fragment)
+    counter = 1
+
+    while true
+      new_fragment = fragment.sub("?", "$#{counter}")
+      if new_fragment == fragment
+        break
+      else
+        counter += 1
+        fragment = new_fragment
+      end
+    end
+
+    new_fragment
   end
 end
 # @db.results_as_hash = true

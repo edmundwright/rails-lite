@@ -23,7 +23,7 @@ class SQLObject
         #{table_name}
       LIMIT 0
     SQL
-    debugger
+
     column_names.map(&:to_sym)
   end
 
@@ -66,15 +66,19 @@ class SQLObject
   end
 
   def self.parse_all(results)
-    results.map do |result|
+    parsed = []
+
+    results.each do |result|
       result_with_symbol_keys = {}
 
       result.each do |key, value|
         result_with_symbol_keys[key.to_sym] = value
       end
 
-      new(result_with_symbol_keys)
+      parsed << new(result_with_symbol_keys)
     end
+
+    parsed
   end
 
   def self.find(id)
@@ -116,7 +120,7 @@ class SQLObject
   def insert
     col_names = self.class.columns.join(", ")
     question_marks = (["?"] * self.class.columns.length).join(", ")
-
+    debugger
     DBConnection.execute(<<-SQL, *attribute_values)
       INSERT INTO
         #{self.class.table_name} (#{col_names})
