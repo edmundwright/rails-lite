@@ -83,7 +83,7 @@ class SQLObject
 
   def self.find(id)
     id = id.to_i
-    sql_result = DBConnection::execute(<<-SQL, id)
+    sql_result = DBConnection::execute(<<-SQL, [id])
       SELECT
         *
       FROM
@@ -120,15 +120,17 @@ class SQLObject
   def insert
     col_names = self.class.columns.drop(1).join(", ")
     question_marks = (["?"] * (self.class.columns.length - 1)).join(", ")
-    debugger
-    DBConnection.execute(<<-SQL, attribute_values.drop(1))
+
+    result_of_insert = DBConnection.execute(<<-SQL, attribute_values.drop(1))
       INSERT INTO
         #{self.class.table_name} (#{col_names})
       VALUES
         (#{question_marks})
+      RETURNING
+        id
     SQL
 
-    self.id = DBConnection.last_insert_row_id
+    self.id = result_of_insert.values[0][0].to_i
   end
 
   def update
@@ -136,7 +138,7 @@ class SQLObject
                             .map { |col_name| "#{col_name} = ?" }
                             .join(", ")
 
-    DBConnection.execute(<<-SQL, *attribute_values, id)
+    DBConnection.execute(<<-SQL, attribute_values << id)
       UPDATE
         #{self.class.table_name}
       SET
