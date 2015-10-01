@@ -5,3 +5,4 @@ gem "rspec", "~> 3.1.0"
 gem "activesupport"
 gem 'byebug'
 gem 'bcrypt'
+gem 'pg'

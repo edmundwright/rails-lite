@@ -16,15 +16,15 @@ class SQLObject
   end
 
   def self.columns
-    column_names = DBConnection::execute2(<<-SQL)
+    column_names = DBConnection.execute(<<-SQL).fields
       SELECT
         *
       FROM
         #{table_name}
       LIMIT 0
     SQL
-
-    column_names.first.map(&:to_sym)
+    debugger
+    column_names.map(&:to_sym)
   end
 
   def self.finalize!

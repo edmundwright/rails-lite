@@ -1,3 +1,7 @@
+CREATE DATABASE rails_lite_app;
+
+\connect rails_lite_app;
+
 CREATE TABLE dogs (
   id INTEGER PRIMARY KEY,
   name VARCHAR(255) NOT NULL,

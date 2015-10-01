@@ -1,47 +1,26 @@
-# This file provided by App Academy
+require 'pg'
 
-require 'sqlite3'
-
-DB_FILE = 'db/tables.db'
+DB_NAME = 'rails_lite_app'
 
 class DBConnection
-  def self.open(db_file_name)
-    @db = SQLite3::Database.new(db_file_name)
-    @db.results_as_hash = true
-    @db.type_translation = true
+  def self.reset
+    p "Resetting connection to #{DB_NAME}..."
+    @db = PG.connect(dbname: DB_NAME)
 
     @db
-  end
-
-  def self.reset
-    p DB_FILE
-    DBConnection.open(DB_FILE)
   end
 
   def self.instance
-    reset if @db.nil?
-
-    @db
+    @db || reset
   end
 
   def self.execute(*args)
-    puts args[0]
-
-    instance.execute(*args)
-  end
-
-  def self.execute2(*args)
-    puts args[0]
-
-    instance.execute2(*args)
+    instance.exec_params(*args)
   end
 
   def self.last_insert_row_id
     instance.last_insert_row_id
   end
-
-  private
-
-  def initialize(db_file_name)
-  end
 end
+# @db.results_as_hash = true
+# @db.type_translation = true
