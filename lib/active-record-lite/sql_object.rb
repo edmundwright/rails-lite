@@ -118,10 +118,10 @@ class SQLObject
   end
 
   def insert
-    col_names = self.class.columns.join(", ")
-    question_marks = (["?"] * self.class.columns.length).join(", ")
+    col_names = self.class.columns.drop(1).join(", ")
+    question_marks = (["?"] * (self.class.columns.length - 1)).join(", ")
     debugger
-    DBConnection.execute(<<-SQL, *attribute_values)
+    DBConnection.execute(<<-SQL, attribute_values.drop(1))
       INSERT INTO
         #{self.class.table_name} (#{col_names})
       VALUES

@@ -16,6 +16,8 @@ class DBConnection
 
   def self.execute(*args)
     args[0] = transform_question_marks(args[0])
+    p args[0]
+    p args.drop(1)
     instance.exec_params(*args)
   end
 
