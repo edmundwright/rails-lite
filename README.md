@@ -1,5 +1,6 @@
 # Rails Lite
-Clone of Rails' basic functionality, including clone of Active Record's basic functionality. Repository includes example app with user authentication.
+[Link to live demo app running on Rails Lite](http://rld.edmund.io)
+Clone of Rails' basic functionality, including clone of Active Record's basic functionality. Repository includes example app with user authentication, which can be found running online at the above link.
 
 Allows:
 
