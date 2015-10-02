@@ -37,6 +37,13 @@ class ApplicationController < ControllerBase
   ...
 ```
 
+* Associations
+```
+belongs_to :author,
+  class_name: "User",
+  foreign_key: :author_id
+```
+
 ## Usage
 
 - Download clean version without demo app [here](https://github.com/edmundwright/rails-lite/archive/without-demo-app.zip).
