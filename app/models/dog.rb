@@ -1,4 +1,4 @@
-class Dog < SQLObject
+class Comment < SQLObject
   finalize!
-  validates :name, :breed, presence: true
+  validates :body, :author_id, presence: true
 end
