@@ -13,10 +13,12 @@
   <a href="/sessions/new">Sign In</a><br>
 <% end %>
 
+<h2>Comments</h2>
+
 <a href="/comments/new">Create new comment</a>
 
 <ul>
 <% @comments.each do |comment | %>
-  <li><a href="/comments/<%= comment.id %>"><%= comment.body %>, by <%= comment.author_id %></a></li>
+  <li><a href="/comments/<%= comment.id %>"><%= comment.body %></a>, by <%= comment.author.username %></li>
 <% end %>
 </ul>
