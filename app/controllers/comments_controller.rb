@@ -1,34 +1,34 @@
-class DogsController < ApplicationController
+class CommentsController < ApplicationController
   def index
-    @dogs = Dog.all
+    @comments = Comment.all
     render :index
   end
 
   def show
-    @dog = Dog.find(params[:id])
+    @comment = Comment.find(params[:id])
     render :show
   end
 
   def new
-    @dog = Dog.new
+    @comment = Comment.new
     render :new
   end
 
   def create
-    @dog = Dog.new(dog_params)
+    @comment = Comment.new(comment_params)
 
-    if @dog.save
-      flash[:notice] = "Thanks for making a dog!"
-      redirect_to "dogs/#{@dog.id}"
+    if @comment.save
+      flash[:notice] = "Thanks for commenting!"
+      redirect_to "comments/#{@comment.id}"
     else
-      flash.now[:errors] = @dog.errors
+      flash.now[:errors] = @comment.errors
       render :new
     end
   end
 
   private
 
-  def dog_params
-    params[:dog]
+  def comment_params
+    params[:comment]
   end
 end

@@ -9,7 +9,7 @@ class SessionsController < ApplicationController
     if user
       flash[:notice] = "Thanks for signing in!"
       log_in_user!(user)
-      redirect_to "/dogs"
+      redirect_to "/"
     else
       flash.now[:errors] = ["Username or password not correct!"]
       render :new
@@ -18,6 +18,6 @@ class SessionsController < ApplicationController
 
   def destroy
     log_out!
-    redirect_to "/dogs"
+    redirect_to "/"
   end
 end

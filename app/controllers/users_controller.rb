@@ -9,7 +9,7 @@ class UsersController < ApplicationController
     if @user.save
       flash[:notice] = "Thanks for signing up!"
       log_in_user!(@user)
-      redirect_to "dogs"
+      redirect_to "/"
     else
       flash.now[:errors] = @user.errors
       render :new
