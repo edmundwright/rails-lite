@@ -17,6 +17,6 @@
 
 <ul>
 <% @comments.each do |comment | %>
-  <li><a href="/comments/<%= comment.id %>"><%= comment.body %></a></li>
+  <li><a href="/comments/<%= comment.id %>"><%= comment.body %>, by <%= comment.author_id %></a></li>
 <% end %>
 </ul>

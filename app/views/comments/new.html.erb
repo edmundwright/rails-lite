@@ -1,4 +1,4 @@
-<h1>Make a Dog</h1>
+<h1>Make a Comment</h1>
 
 <ul>
 <% flash[:errors].try(:each) do |error| %>
@@ -6,14 +6,11 @@
 <% end %>
 </ul>
 
-<form action="/dogs" method="post">
+<form action="/comments" method="post">
   <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
 
-  <label for="dog_name">Name</label>
-  <input id="dog_name" type="text" name="dog[name]" value="<%= @dog.name %>">
+  <label for="comment_body">Comment</label>
+  <textarea id="comment_body" name="comment[body]" value="<%= @comment.body %>"></textarea>
 
-  <label for="dog_breed">Breed</label>
-  <input id="dog_breed" type="text" name="dog[breed]" value="<%= @dog.breed %>">
-
-  <button>MAKE DOG</button>
+  <button>Submit comment</button>
 </form>

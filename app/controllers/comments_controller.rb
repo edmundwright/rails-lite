@@ -15,7 +15,7 @@ class CommentsController < ApplicationController
   end
 
   def create
-    @comment = Comment.new(comment_params)
+    @comment = Comment.new(comment_params.merge({ author_id: current_user.id }))
 
     if @comment.save
       flash[:notice] = "Thanks for commenting!"
