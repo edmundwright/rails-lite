@@ -12,6 +12,6 @@ if heroku_params_string
 else
   $database_params = {
     # For localhost deployment, enter dbname here.
-    dbname: "rails_lite_demo"
+    dbname: ""
   }
 end
