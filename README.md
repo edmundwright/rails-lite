@@ -40,9 +40,9 @@ class ApplicationController < ControllerBase
 ## Usage
 
 - Download clean version without demo app [here](https://github.com/edmundwright/rails-lite/archive/without-demo-app.zip).
-- To create the PostgreSQL database:
-  - Localhost: Create a PostgreSQL database manually, e.g. by running `CREATE DATABASE name` in psql. Then add `name` to `config/database.rb`.
-  - Heroku: Add the Postgres add-on, and Rails Lite will automatically find the database's name and location. No configuration needed!
+- To make Rails Lite work with your PostgreSQL database:
+  - Localhost: Add the database's name to `config/database.rb`.
+  - Heroku: Rails Lite will automatically find the database's name and location. No configuration needed!
 - Write SQL for creating tables in `db/tables.rb`, then run `ruby bin/dbcreate.rb`.
 - Add controllers, models and views in the appropriate folders.
 - Add routes in `config/routes.rb`
