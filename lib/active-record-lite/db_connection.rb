@@ -1,11 +1,10 @@
 require 'pg'
-
-DB_NAME = 'rails_lite_app'
+require_relative '../../config/database'
 
 class DBConnection
   def self.reset
-    p "Resetting connection to #{DB_NAME}..."
-    @db = PG.connect(dbname: DB_NAME)
+    # @db = PG.connect(dbname: DB_NAME)
+    @db = PG.connect($database_params)
 
     @db
   end

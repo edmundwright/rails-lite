@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 require 'byebug'
 
 require_relative '../lib/active-record-lite/sql_object'
@@ -10,7 +12,8 @@ $router = Router.new
 
 require_relative '../config/routes.rb'
 
-server = WEBrick::HTTPServer.new(Port: 3000)
+p 'Webrick server starting...'
+server = WEBrick::HTTPServer.new(Port: ENV["PORT"] || 3000)
 server.mount_proc('/') do |req, res|
   route = $router.run(req, res)
 end
