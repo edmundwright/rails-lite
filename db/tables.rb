@@ -1,8 +1,8 @@
 $create_script = <<-SQL
-  CREATE TABLE dogs (
+  CREATE TABLE comments (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    breed VARCHAR(255) NOT NULL
+    body VARCHAR(255) NOT NULL,
+    author_id INTEGER NOT NULL
   );
 
   CREATE TABLE users (
