@@ -2,7 +2,7 @@
 
 [Link to live demo app running on Rails Lite](http://rld.edmund.io)
 
-Web server MVC framework inspired by the functionality of Ruby on Rails, containing ORM inspired by the functionality of ActiveRecord. Repository includes example app with user authentication, which can be found running online at the above link.
+Web server MVC framework inspired by the functionality of Ruby on Rails, containing ORM inspired by the functionality of ActiveRecord. Repository includes example app with user authentication, which can be found running online at the above link. A clean version of the repo, without the example app, can be found at the branch [here](https://github.com/edmundwright/rails-lite/tree/without-demo-app).
 
 ## Features
 
